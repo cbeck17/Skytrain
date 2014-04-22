@@ -1,0 +1,19 @@
+Skytrain Revisions Log:
+
+v2.03 - Created 16 April 2014 - Obsolete 17 April 2014
+- Began reformatting to accomodate complete object orientation
+- Created Airfield class
+	- Eliminated the classless airfieldBackground() method
+	- Created .displayAirfieldBackground() in Airfield class
+		- Identical to the airfieldBackground() method
+- Minor revisions to the movement methods of the TwinOtter class
+- Attempted to set sketch icon
+
+---------------------------------------------------------------------
+
+v2.04 - Created 17 April 2014
+- Added music to sketch
+	-Planning to change it when I find something less annoying
+- Created button class
+- Added clickable buttons to the airplane class
+- Banished a lot of unusable code to code purgatory

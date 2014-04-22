@@ -1,0 +1,8 @@
+Documentation Statement:
+
+- After helping C4C Meghan Plunkett with a CS110S game, I saw that she had formatted her game to be completely object oriented.
+  I like this formatting and have decided to reformat the Skytrain, starting at v2.03 to be mostly object oriented. 13 April 2014
+- Got the line to set the sketch icon from online java library. 16 April 2014
+- Found the instructions for the audio (minim) library online. 17 April 2014
+- Used a stock button class to see how the code is implemented. I coded the Button class myself but used the more pertinent
+  fomatting parts of the code in my class. 17 April 2014
