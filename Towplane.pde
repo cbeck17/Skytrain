@@ -38,7 +38,6 @@ class Towplane extends Airplane {
     x = x + xVel;
     y = y + yVel;
     r = r + rVel;
-    println(status);
   }
 
   void clearedToTaxi() {

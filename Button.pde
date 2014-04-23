@@ -16,22 +16,26 @@ class Button {
 
   String buttonType;
   int x, y;
+  boolean active;
 
   Button(int tempX, int tempY, String tempType) {
     x = tempX;
     y = tempY;
     buttonType = tempType;
+    active = false;
   }
 
   void display() {
-    fill(#FBFF1F);
-    textFont(createFont("Arial", 24, true)); //Choosing text
-    text(buttonType, x+(textWidth(buttonType)/2)+4, y+24);
-    fill(0, 0, 255, 50);
-    if (over()) {
-      fill(0, 0, 255, 150);
+    if (active) {
+      fill(#FBFF1F);
+      textFont(createFont("Arial", 24, true)); //Choosing text
+      text(buttonType, x+(textWidth(buttonType)/2)+4, y+24);
+      fill(0, 0, 255, 50);
+      if (over()) {
+        fill(0, 0, 255, 150);
+      }
+      rect(x, y, textWidth(buttonType)+8, 28);
     }
-    rect(x, y, textWidth(buttonType)+8, 28);
   }
 
   boolean over() {
@@ -42,14 +46,21 @@ class Button {
       return false;
     }
   }
-  
+
   boolean clicked() {
-    if (over() && mousePressed) {
-    return true;
+    if (over() && mousePressed && active) {
+      return true;
     }
     else {
       return false;
     }
   }
-  
+
+  void activate() {
+    active = true;
+  }
+
+  void deactivate() {
+    active = false;
+  }
 }

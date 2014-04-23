@@ -23,7 +23,6 @@ TwinOtter twinOtter;
 Towplane towplane;
 Sailplane sailplane;
 
-
 void setup() {
   frame.setIconImage( getToolkit().getImage("Skytrain.ico") ); //A lousy attempt to set the game icon... fix later, doesn't work
   imageMode(CENTER);
@@ -32,7 +31,7 @@ void setup() {
   //Music stuff
   minim = new Minim(this);
   gameplayMusic = minim.loadFile("Breaktime.mp3", 2048);
-  gameplayMusic.play();
+  //gameplayMusic.play();
 
   //To resize the window
   if (frame != null) {
@@ -45,6 +44,7 @@ void setup() {
   sailplane = new Sailplane(550, -50, HALF_PI);
   airfield = new Airfield();
   twinOtter.clearedToTaxi();
+
 }
 
 void draw() {
@@ -57,4 +57,5 @@ void draw() {
   towplane.display();
   sailplane.control();
   sailplane.display();
+  arrowButton.display();
 }

@@ -92,8 +92,8 @@ class Airplane {
     sailplaneImage = loadImage("sailplane.png");
     towplaneImage = loadImage("towplane.png");
   }
-  
-  
+
+
 
   void display() {
 
@@ -190,21 +190,42 @@ class Airplane {
   }
 
   void displayButtons() {
+    
+    //Change this to be airplane specific!!
+    
     if (status.equals("Inactive")) {
-      activateButton.display();
+      deactivateButtons();
+      activateButton.activate();
     } 
     else
       if (status.equals("Active")) {
-        taxiCButton.display();
-        taxiRButton.display();
-        stageButton.display();
+        deactivateButtons();
+        taxiCButton.activate();
+        taxiRButton.activate();
+        stageButton.activate();
       }
       else {
-        taxiCButton.display();
-        taxiRButton.display();
-        lineupButton.display();
-        takeoffButton.display();
+        deactivateButtons();
+        taxiCButton.activate();
+        taxiRButton.activate();
+        lineupButton.activate();
+        takeoffButton.activate();
       }
+    taxiCButton.display();
+    taxiRButton.display();
+    lineupButton.display();
+    takeoffButton.display();
+    stageButton.display();
+    activateButton.display();
+  }
+
+  void deactivateButtons() {
+    taxiCButton.deactivate();
+    taxiRButton.deactivate();
+    lineupButton.deactivate();
+    takeoffButton.deactivate();
+    stageButton.deactivate();
+    activateButton.deactivate();
   }
 
   Float giveX() {
@@ -228,6 +249,4 @@ class Airplane {
     reset = false;
     idle = false;
   }
-
-
 }

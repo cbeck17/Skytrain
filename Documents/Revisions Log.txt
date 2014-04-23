@@ -11,9 +11,15 @@ v2.03 - Created 16 April 2014 - Obsolete 17 April 2014
 
 ---------------------------------------------------------------------
 
-v2.04 - Created 17 April 2014
+v2.04 - Created 17 April 2014 - Obsolete 22 April 2014
 - Added music to sketch
 	-Planning to change it when I find something less annoying
 - Created button class
 - Added clickable buttons to the airplane class
 - Banished a lot of unusable code to code purgatory
+
+---------------------------------------------------------------------
+
+d1.0.0 - Created 22 April 2014
+- Created ArrowButton class
+- Sailplane will takeoff/fly/land

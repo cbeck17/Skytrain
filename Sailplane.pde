@@ -21,8 +21,6 @@ class Sailplane extends Airplane {
   }
 
   void control() {
-    xVel = 0;
-    yVel = 0;
     activate();
     stage();
     taxi();
@@ -35,17 +33,15 @@ class Sailplane extends Airplane {
     x = x + xVel;
     y = y + yVel;
     r = r + rVel;
-    println(status);
   }
 
   void clearedToTaxi() {
     reset = true;
     clearedTaxiC = true;
   }
-  
+
   void stage() {
     if (status.equals("Staging")) {
-      
     }
   }
 
@@ -151,7 +147,7 @@ class Sailplane extends Airplane {
           if (r<=0) {
             r = 0;
             if (x<=600) {
-              xVel = xVel + 0.003;
+              xVel = xVel + 0.004;
               status = "Taking Off";
             }
             if (x>600 && xVel<1.25) {
@@ -260,14 +256,14 @@ class Sailplane extends Airplane {
         approach = false;
         status = "Landing";
       }
-      if (x<200) {
+      if (x<125) {
         xVel = 1.5;
       }
-      if (x>200 && xVel > 0.5) {
-        xVel = xVel - 0.002;
+      if (x>125 && xVel > 0.25) {
+        xVel = xVel - 0.004;
       }
-      if (x>800) {
-        xVel = 0.5;
+      if (x>400) {
+        xVel = 0;
         status = "Clearing Runway";
       }
       if (x >= 925) {
