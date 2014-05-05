@@ -40,7 +40,7 @@ void setup() {
 
   //These are for testing purposes (will be moved to the "Controller")
   twinOtter = new TwinOtter(76, -150, HALF_PI);
-  towplane = new Towplane(925, height+50, -HALF_PI);
+  towplane = new Towplane(925, 500, -HALF_PI);
   sailplane = new Sailplane(550, -50, HALF_PI);
   airfield = new Airfield();
   twinOtter.clearedToTaxi();
@@ -57,5 +57,4 @@ void draw() {
   towplane.display();
   sailplane.control();
   sailplane.display();
-  arrowButton.display();
 }

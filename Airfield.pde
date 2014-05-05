@@ -87,7 +87,7 @@ class Airfield {
     }
     fill(255, 255, 255); //Line coloring
     for (int i = 135; i + 30 <= 900; i = i+50) { //Making runway centerlines
-      rect(i, 273, 30, 6); //16R centerlines
+      rect(i, 272, 30, 6); //16R centerlines
       rect(i, 122, 30, 6); //16C centerlines
     }
     for (int i = 252; i + 3 <= 300; i = i+4) { //Threshold markings

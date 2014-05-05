@@ -29,7 +29,6 @@ class Sailplane extends Airplane {
     airborne();
     approach();
     landing();
-    turnAround();
     x = x + xVel;
     y = y + yVel;
     r = r + rVel;
@@ -42,11 +41,37 @@ class Sailplane extends Airplane {
 
   void stage() {
     if (status.equals("Staging")) {
+      if (runway.equals("16C") || runway.equals("16R")) {
+        if (x < 600) {
+          xVel = 0.5;
+        }
+        if (x >= 600) {
+          xVel = 0;
+          x = 600;
+        }
+      }
+      if (runway.equals("SPLA 1") || runway.equals("SPLA 2") || runway.equals("SPLA 3") || runway.equals("SPLA 4")) {
+        if (r>-PI/2) {
+          r = r - radians(0.5);
+        } 
+        else
+          if (r<=-PI/2) {
+            r = -PI/2;
+            if (y > 350) {
+              yVel = -0.5;
+            }
+            else if (y <= 350) {
+              yVel = 0;
+              y = 350;
+            }
+          }
+      }
     }
   }
 
   void activate() {
     if (status.equals("Active")) {
+      runway = "16C";
       if (y < 50) {
         yVel = 0.5;
       }
@@ -132,85 +157,36 @@ class Sailplane extends Airplane {
 
   void takeoff() {
     if (clearedTakeoff) {
-      if (runway.equals("16C")) {
-        if (y<125) {
-          status = "Taking Off";
-          yVel = 0.5;
-        }
-        if (y>=125) {
-          yVel = 0;
-          y = 125;
-          if (r>0) {
-            status = "Taking Off";
-            r = r - radians(0.5);
-          }
-          if (r<=0) {
-            r = 0;
-            if (x<=600) {
-              xVel = xVel + 0.004;
-              status = "Taking Off";
-            }
-            if (x>600 && xVel<1.25) {
-              xVel = xVel + 0.003;
-              status = "Taking Off";
-            }
-            if (x>600 && xVel>=1.25) {
-              xVel = 1.25;
-              status = "Taking Off";
-            }
-            if (x>1100) {
-              xVel = 0;
-              status = "Airborne";
-              airborne = true;
-            }
-          }
-        }
+      r = 0;
+      if (x<=600) {
+        xVel = xVel + 0.004;
+        status = "Taking Off";
       }
-      if (runway.equals("16R")) {
-        if (y<275) {
-          status = "Taking Off";
-          yVel = 0.5;
-        }
-        if (y>=275) {
-          yVel = 0;
-          y = 275;
-          if (r>0) {
-            status = "Taking Off";
-            r = r - radians(0.5);
-          }
-          if (r<=0) {
-            r = 0;
-            if (x<=100) {
-              xVel = xVel + 0.004;
-              status = "Taking Off";
-            }
-            if (x>100 && xVel<1.5) {
-              xVel = xVel + 0.003;
-              status = "Taking Off";
-            }
-            if (x>100 && xVel>=1.5) {
-              xVel = 1.5;
-              status = "Taking Off";
-            }
-            if (x>1100) {
-              xVel = 0;
-              status = "Airborne";
-              airborne = true;
-            }
-          }
-        }
+      if (x>600 && xVel<1.25) {
+        xVel = xVel + 0.003;
+        status = "Taking Off";
+      }
+      if (x>600 && xVel>=1.25) {
+        xVel = 1.25;
+        status = "Taking Off";
+      }
+      if (x>1100) {
+        xVel = 0;
+        status = "Airborne";
+        airborne = true;
       }
     }
   }
 
   void airborne() {
     if (airborne == true) {
+      runway = "";
       if (clearedTakeoff == true) {
         time = millis();
         time = round(time/1000);
         clearedTakeoff = false;
       }
-      timeSec = int((time+10));
+      timeSec = int((time+20));
       timeSec = timeSec - int(ceil(millis()/1000));
       timeMin = ceil((timeSec/60));
       status = "Airborne: " + timeMin + ":" + (timeSec-(timeMin*60)) ;
@@ -239,7 +215,16 @@ class Sailplane extends Airplane {
       if ((timeSec-(timeMin*60))<10) {
         status = "Approach: " + timeMin + ":0" + (timeSec-(timeMin*60)) ;
       }
-      //      chooseRunway();
+      if (runway.equals("")) {
+        selected = true;
+      } 
+      else {
+        selected = false;
+        status = "Approach " + runway + ": " + timeMin + ":" + (timeSec-(timeMin*60)) ;
+        if ((timeSec-(timeMin*60))<10) {
+          status = "Approach " + runway + ": " + timeMin + ":0" + (timeSec-(timeMin*60)) ;
+        }
+      }
       if (timeSec<=0) {
         if (timeMin<=0) {
           clearedLanding = true;
@@ -251,65 +236,56 @@ class Sailplane extends Airplane {
   void landing() {
     if (clearedLanding == true) {
       if (approach == true) {
-        y = 126;
+        if (runway.equals("16C")) {
+          y = 125;
+        } 
+        else if (runway.equals("16R")) {
+          y = 275;
+        }
+        else if (runway.equals("SPLA 1")) {
+          y = 428;
+        }
+        else if (runway.equals("SPLA 2")) {
+          y = 478;
+        }
+        else if (runway.equals("SPLA 3")) {
+          y = 528;
+        }
+        else if (runway.equals("SPLA 4")) {
+          y = 578;
+        }
         x = -100;
         approach = false;
-        status = "Landing";
+        status = "Landing " + runway;
       }
-      if (x<125) {
-        xVel = 1.5;
-      }
-      if (x>125 && xVel > 0.25) {
-        xVel = xVel - 0.004;
-      }
-      if (x>400) {
-        xVel = 0;
-        status = "Clearing Runway";
-      }
-      if (x >= 925) {
-        xVel = 0;
-        status = "Clearing Runway";
-        if (r>-HALF_PI) {
-          yVel = 0;
-          r = r - HALF_PI/180;
+      if (runway.equals("16C") || runway.equals("16R")) {
+        if (x<125) {
+          xVel = 1.25;
         }
-        if (r<=-HALF_PI) {
-          r = -HALF_PI;
-          if (y>-100) {
-            yVel = -0.5;
-          }
-          if (y<100) {
-            status = "Taxiing";
-          }
+        if (x>125 && xVel > 0.25) {
+          xVel = xVel - 0.004;
         }
-        if (y<=-150) {
+        if (x>350) {
           xVel = 0;
+          status = "Landed " + runway + " -- Waiting";
+        }
+      }
+      if (runway.equals("SPLA 1") || runway.equals("SPLA 2") || runway.equals("SPLA 3") || runway.equals("SPLA 4")) {
+        if (x<200) {
+          xVel = 1.5;
+        }
+        if (x>200 && xVel > 0.25) {
+          xVel = xVel - 0.003;
+        }
+        if (x>=500) {
           xVel = 0;
-          reset = true;
+          status = "Landed " + runway + " -- Waiting";
         }
       }
     }
   }
 
-  void turnAround() {
-    if (reset == true) {
-      if (clearedLanding == true) {
-        time = millis();
-        time = round(time/1000);
-        clearedLanding = false;
-      }
-      timeSec = int((time+10));
-      timeSec = timeSec - int(ceil(millis()/1000));
-      timeMin = ceil((timeSec/60));
-      status = "Reloading: " + timeMin + ":" + (timeSec-(timeMin*60)) ;
-      if ((timeSec-(timeMin*60))<10) {
-        status = "Reloading: " + timeMin + ":0" + (timeSec-(timeMin*60)) ;
-      }
-      if (timeSec<=0) {
-        if (timeMin<=0) {
-          clearedTaxiC = true;
-        }
-      }
-    }
+  float getXVel() {
+    return xVel;
   }
 }

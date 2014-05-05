@@ -28,21 +28,21 @@ class ArrowButton {
         vertex(x+3, y+32);
         endShape(CLOSE);
       }
-    }
 
-    if (over()) {
-      fill(255, 0, 0, 100);
-      rect(x, y, 65, 50);
-      fill(0, 0, 255, 100);
-      beginShape();
-      vertex(x+3, y+18);
-      vertex(x+40, y+18);
-      vertex(x+40, y+5);
-      vertex(x+65, y+25);
-      vertex(x+40, y+45);
-      vertex(x+40, y+32);
-      vertex(x+3, y+32);
-      endShape(CLOSE);
+      if (over()) {
+        fill(255, 0, 0, 100);
+        rect(x, y, 65, 50);
+        fill(0, 0, 255, 100);
+        beginShape();
+        vertex(x+3, y+18);
+        vertex(x+40, y+18);
+        vertex(x+40, y+5);
+        vertex(x+65, y+25);
+        vertex(x+40, y+45);
+        vertex(x+40, y+32);
+        vertex(x+3, y+32);
+        endShape(CLOSE);
+      }
     }
   }
 

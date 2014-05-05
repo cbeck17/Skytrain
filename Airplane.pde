@@ -39,12 +39,15 @@ class Airplane {
   boolean airborne;
   boolean approach;
   boolean clearedLanding;
+  boolean clearRunway;
+  boolean clearSecondaryLineup;
   boolean reset;
   boolean idle;
   boolean ready;
 
   //So you can control the aircraft
   Button takeoffButton, lineupButton, taxiCButton, taxiRButton, activateButton, stageButton;
+  ArrowButton centerButton, rightButton, SPLA1Button, SPLA2Button, SPLA3Button, SPLA4Button;
 
   //The different possible images
   PImage twinOtterImage;
@@ -87,6 +90,12 @@ class Airplane {
     stageButton = new Button(50, 530, "Stage");
     activateButton = new Button(50, 560, "Activate");
 
+    centerButton = new ArrowButton(50, 100, "16C");
+    rightButton = new ArrowButton(50, 250, "16R");
+    SPLA1Button = new ArrowButton(200, 400, "SPLA 1");
+    SPLA2Button = new ArrowButton(200, 450, "SPLA 2");
+    SPLA3Button = new ArrowButton(200, 500, "SPLA 3");
+    SPLA4Button = new ArrowButton(200, 550, "SPLA 4");
 
     twinOtterImage = loadImage("twinotter.png");
     sailplaneImage = loadImage("sailplane.png");
@@ -104,6 +113,7 @@ class Airplane {
         status = "Active";
       }
       if (stageButton.clicked() && xVel == 0 && yVel == 0) {
+        clearedLanding = false;
         status = "Staging";
       }
       if (takeoffButton.clicked()) {
@@ -117,6 +127,24 @@ class Airplane {
       }
       if (lineupButton.clicked()) {
         clearedLineup = true;
+      }
+      if (centerButton.clicked()) {
+        runway = "16C";
+      }
+      if (rightButton.clicked()) {
+        runway = "16R";
+      }
+      if (SPLA1Button.clicked()) {
+        runway = "SPLA 1";
+      }
+      if (SPLA2Button.clicked()) {
+        runway = "SPLA 2";
+      }
+      if (SPLA3Button.clicked()) {
+        runway = "SPLA 3";
+      }
+      if (SPLA4Button.clicked()) {
+        runway = "SPLA 4";
       }
     }
     //////////////////////////////
@@ -190,11 +218,12 @@ class Airplane {
   }
 
   void displayButtons() {
-    
+
     //Change this to be airplane specific!!
-    
+
+    deactivateButtons();
+
     if (status.equals("Inactive")) {
-      deactivateButtons();
       activateButton.activate();
     } 
     else
@@ -204,19 +233,37 @@ class Airplane {
         taxiRButton.activate();
         stageButton.activate();
       }
-      else {
-        deactivateButtons();
-        taxiCButton.activate();
-        taxiRButton.activate();
-        lineupButton.activate();
-        takeoffButton.activate();
-      }
+      else
+        if (status.indexOf("Approach") == 0) {
+          centerButton.activate();
+          rightButton.activate();
+          if (type.equals("Sailplane")) {
+            SPLA1Button.activate();
+            SPLA2Button.activate();
+            SPLA3Button.activate();
+            SPLA4Button.activate();
+          }
+        }
+        else {
+          deactivateButtons();
+          taxiCButton.activate();
+          taxiRButton.activate();
+          lineupButton.activate();
+          takeoffButton.activate();
+          stageButton.activate();
+        }
     taxiCButton.display();
     taxiRButton.display();
     lineupButton.display();
     takeoffButton.display();
     stageButton.display();
     activateButton.display();
+    centerButton.display();
+    rightButton.display();
+    SPLA1Button.display();
+    SPLA2Button.display();
+    SPLA3Button.display();
+    SPLA4Button.display();
   }
 
   void deactivateButtons() {
@@ -226,14 +273,46 @@ class Airplane {
     takeoffButton.deactivate();
     stageButton.deactivate();
     activateButton.deactivate();
+    centerButton.deactivate();
+    rightButton.deactivate();
+    SPLA1Button.deactivate();
+    SPLA2Button.deactivate();
+    SPLA3Button.deactivate();
+    SPLA4Button.deactivate();
   }
 
-  Float giveX() {
+  void activateRunwayButtons() {
+    centerButton.deactivate();
+    rightButton.deactivate();
+    SPLA1Button.deactivate();
+    SPLA2Button.deactivate();
+    SPLA3Button.deactivate();
+    SPLA4Button.deactivate();
+  }
+
+  void deactivateRunwayButtons() {
+    centerButton.deactivate();
+    rightButton.deactivate();
+    SPLA1Button.deactivate();
+    SPLA2Button.deactivate();
+    SPLA3Button.deactivate();
+    SPLA4Button.deactivate();
+  }
+
+  float giveX() {
     return x;
   }
 
-  Float giveY() {
+  float giveY() {
     return y;
+  }
+
+  void setXDest(float tempXDest) {
+    xDest = tempXDest;
+  }
+
+  void setYDest(float tempYDest) {
+    yDest = tempYDest;
   }
 
   void setCrash() {
